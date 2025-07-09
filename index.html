@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tech For Girls - Registration</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+      background-color: #f8f8f8;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Tech For Girls Registration</h2>
+    <form id="regForm">
+      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="number" id="phone" placeholder="Phone Number" required>
+      <input type="email" id="email" placeholder="Email ID" required>
+      <input type="text" id="college" placeholder="College/Department" required>
+
+      <label>Upload Screenshot:</label>
+      <input type="file" id="screenshot" accept="image/*" required>
+
+      <button type="button" id="shareBtn">Share on WhatsApp</button>
+      <p id="counter">Click count: 0/5</p>
+
+      <button type="submit" id="submitBtn" disabled>Submit Registration</button>
+    </form>
+
+    <p id="result"></p>
+  </div>
+
+  <script>
+    let count = 0;
+
+    document.getElementById("shareBtn").addEventListener("click", function() {
+      if (count < 5) {
+        const msg = encodeURIComponent("Hey Buddy, Join Tech For Girls Community!");
+        window.open(`https://wa.me/?text=${msg}`, "_blank");
+        count++;
+        document.getElementById("counter").innerText = `Click count: ${count}/5`;
+
+        if (count === 5) {
+          alert("Sharing complete. Please continue.");
+          document.getElementById("submitBtn").disabled = false;
+        }
+      }
+    });
+
+    document.getElementById("regForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      document.getElementById("submitBtn").disabled = true;
+      document.getElementById("regForm").classList.add("disabled");
+      document.getElementById("result").innerText = "🎉 Your submission has been recorded. Thanks for being part of Tech for Girls!";
+
+      // Optional: Store flag to block repeat submissions
+      localStorage.setItem("submitted", "true");
+    });
+
+    // Prevent resubmission
+    if (localStorage.getItem("submitted")) {
+      document.getElementById("submitBtn").disabled = true;
+      document.getElementById("regForm").classList.add("disabled");
+      document.getElementById("result").innerText = "🎉 You already submitted the form.";
+    }
+  </script>
+</body>
+</html>
